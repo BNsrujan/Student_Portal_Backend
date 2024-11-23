@@ -1,11 +1,14 @@
-const { Pool } = require('pg');
-
-const pool = new Pool({
-  user: 'your-username',
-  host: 'localhost',
-  database: 'your-database',
-  password: 'your-password',
-  port: 5432,  // default port for PostgreSQL
+dotenv.config({
+  path: './.env',
 });
 
-module.exports = pool;
+const { neon } = require('@neondatabase/serverless');
+
+const sql = neon(process.env.PG_URI);
+
+async function getPgVersion() {
+  const result = await sql`SELECT version()`;
+  console.log(result[0]);
+}
+
+getPgVersion();
