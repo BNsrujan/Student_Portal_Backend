@@ -1,5 +1,5 @@
-import { Router } from 'express'
-import { healthcheck } from "../controllers/healthcheck.controller"
+const express=require('express');
+const healthcheck = require("../controllers/healthcheck.controller");
 
 const router = Router();
 

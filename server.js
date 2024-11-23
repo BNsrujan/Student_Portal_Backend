@@ -1,7 +1,7 @@
-import express from "express";
-import cors from "cors";
-import dotenv from "dotenv";
-import cookieParser from "cookie-parser";
+const express=require("express");
+const cors=require("cors");
+const dotenv=require("dotenv")
+const cookieParser=require("cookie-parser");
 
 const app = express();
 dotenv.config({
@@ -13,22 +13,17 @@ app.use(cors({
   credentials: true,
 }));
 
+app.use(express.json());
+// app.use(express.urlencoded({ extended: true }));
+// app.use(cookieParser());
 
 
+// import studentRoute from './routes/student.routes';
+// import teacherRoute from './routes/teacher.routes';
 
 
-
-app.use(express.json({ limit: "16kb" }));
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
-
-
-import studentRoute from './routes/student.routes';
-import teacherRoute from './routes/teacher.routes';
-
-
-app.use("/api/v1/student", studentRoute);
-app.use("/api/v1/teacher", teacherRoute);
+// app.use("/api/v1/student", studentRoute);
+// app.use("/api/v1/teacher", teacherRoute);
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
@@ -37,6 +32,6 @@ app.use((err, req, res, next) => {
 
 
 const port = process.env.PORT || 7000;
-app.listen(port, () => {
+app.listen(port||7000, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
