@@ -29,7 +29,7 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ error: "Something went wrong!" });
 });
-
+console.log("Hello")
 
 const port = process.env.PORT || 7000;
 app.listen(port||7000, () => {
