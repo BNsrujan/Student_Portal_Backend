@@ -1,9 +1,9 @@
-const express=require("express");
-const cors=require("cors");
-const dotenv=require("dotenv")
-const cookieParser=require("cookie-parser");
-const register=require('./routes/register.route.js');
-const login=require('./routes/login.route.js');
+const express = require("express");
+const cors = require("cors");
+const dotenv = require("dotenv")
+const cookieParser = require("cookie-parser");
+const register = require('./routes/register.route.js');
+const login = require('./routes/login.route.js');
 
 const app = express();
 dotenv.config({
@@ -11,29 +11,66 @@ dotenv.config({
 });
 
 app.use(cors({
-  origin: "http://localhost:3000",
+  origin: "*",
   credentials: true,
 }));
 
 app.use(express.json());
-// app.use(express.urlencoded({ extended: true }));
-// app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+
+app.post("/api/v1/student/register", (req, res) => {
+  const { username, email, password, semester, branch, usn, section } = req.body;
+  console.log(req.body)
+  if (!username || !email || !password || !semester || !branch || !usn || !section) {
+    return res.status(400).json({
+      success: false,
+      message: "All fields are required"
+    });
+  }
+  //mock responses
+  return res.status(201).json({
+    success: true,
+    message: "Registration successful",
+    data: {
+      username,
+      email,
+      usn,
+      semester,
+      branch,
+      section
+    }
+  });
+});
 
 
-// import studentRoute from './routes/student.routes';
-// import teacherRoute from './routes/teacher.routes';
 
 
-// app.use("/api/v1/student", studentRoute);
-// app.use("/api/v1/teacher", teacherRoute);
+app.post("/api/v1/student/login", (req, res) => {
+  const { usn, password } = req.body
+  console.log(req.body)
 
+  return res.status(200).json({
+    success: true,
+    message: "Login successful",
+    data: {
+      usn,
+      password
+    }
+  })
+})
+
+
+// Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).json({ error: "Something went wrong!" });
+  res.status(500).json({
+    success: false,
+    message: "Something went wrong!"
+  });
 });
-console.log("Hello")
 
 const port = process.env.PORT || 7000;
-app.listen(port||7000, () => {
+app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
