@@ -1,6 +1,5 @@
-dotenv.config({
-  path: './.env',
-});
+require("dotenv").config();
+
 
 const { neon } = require('@neondatabase/serverless');
 
